@@ -35,7 +35,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     # Outside apps
-
+    'channels',
+    'daphne',
     # Default Django apps
     'django.contrib.admin',
     'django.contrib.auth',
@@ -45,8 +46,17 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # My apps
-    'chat'
+    'chat',
+    'accounts',
 ]
+
+ASGI_APPLICATION = 'PyChat.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+    }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -77,7 +87,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'PyChat.wsgi.application'
-
+AUTH_USER_MODEL="accounts.Account"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -124,7 +134,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR /'static'
+STATICFILES_DIRS = [
+    "PyChat/static",
+    ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
